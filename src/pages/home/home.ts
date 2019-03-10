@@ -122,7 +122,7 @@ export class HomePage {
   comprobarSiAprenderOrden(): Promise<any> {
     return new Promise((resolve) => {
       if (this.posibleOpcionAprendida === true) {
-        this.steveProvider.leer("¿quieres que añada la orden anterior ademas de "+this.opcionReconocida).then(() => {
+        this.steveProvider.leer("¿quieres que aprenda también la orden anterior?").then(() => {
           this.steveProvider.escuchar().subscribe(respuesta => {
             if (respuesta.toString() == "sí") {
               this.steveProvider.guardarOrden(this.opcionReconocida, this.opcionNoReconocida).then(() => {

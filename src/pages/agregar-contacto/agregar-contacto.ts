@@ -40,7 +40,7 @@ export class AgregarContactoPage {
         this.nombre = datos.toString();
         if (datos != undefined) {
           this.listener.unsubscribe();
-          this.steve.leer("es correcto " + this.nombre + "?").then(() => {
+          this.steve.leer("es correcto " + this.nombre+", si o no").then(() => {
             this.escucharSIoNO().then((respuesta) => {
               if (respuesta.toLocaleLowerCase() == "si" || respuesta.toLocaleLowerCase() == "sí") {
                 this.escucharApellido();
@@ -63,7 +63,7 @@ export class AgregarContactoPage {
         this.apellido = datos.toString();
         if (datos != undefined) {
           this.listener.unsubscribe();
-          this.steve.leer("es correcto? " + this.apellido).then(() => {
+          this.steve.leer("es correcto? " + this.apellido+" ,si o no").then(() => {
             this.escucharSIoNO().then((respuesta) => {
               if (respuesta.toLocaleLowerCase() == "si" || respuesta.toLocaleLowerCase() == "sí") {
                 this.escucharNumero();
@@ -87,7 +87,7 @@ export class AgregarContactoPage {
         this.numero = datos.toString();
         if (datos != undefined) {
           this.listener.unsubscribe();
-          this.steve.leer("es correcto? " + this.numero).then(() => {
+          this.steve.leer("es correcto? " + this.numero+", si o no").then(() => {
             this.escucharSIoNO().then((respuesta) => {
               if (respuesta.toLocaleLowerCase() == "si" || respuesta.toLocaleLowerCase() == "sí") {
                 this.guardarNumero();

@@ -23,7 +23,7 @@ export class AdrianCallatePage {
     (async () => {
       console.log('ionViewDidLoad AdrianCallatePage');
       this.steveProvider.leer("ADRIÁN CÁLLATE. Por Favor")
-      await delay(2000);
+      await delay(3000);
       this.navCtrl.setRoot(HomePage);
     })();
     async function delay(ms: number) {
