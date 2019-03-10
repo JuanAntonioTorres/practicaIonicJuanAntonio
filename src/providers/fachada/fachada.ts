@@ -35,15 +35,15 @@ export class FachadaProvider {
   constructor(public http: HttpClient, public speacker: SpeackerProvider,
     public listener: ListenerProvider, public linterna: LinternaProvider, public cuentaPasos: PasosProvider,
     public contacto: ContactosProvider, public camara: CameraProvider, public bateria: BateriaProvider,
-    public guardadorFoto: Base64ToGallery, public permisos: AndroidPermissions,public dao:DaoProvider,
-    public ordenesDao:OrdenesDaoProvider) {
+    public guardadorFoto: Base64ToGallery, public permisos: AndroidPermissions, public dao: DaoProvider,
+    public ordenesDao: OrdenesDaoProvider) {
     console.log('Hello FachadaProvider Provider');
   }
 
   mirarCuantaBateria(): Promise<any> {
     return new Promise((resolve) => {
-      this.escuchador =this.bateria.checkBateria().subscribe((estado: BatteryStatusResponse) => {
-        if(estado!=undefined){
+      this.escuchador = this.bateria.checkBateria().subscribe((estado: BatteryStatusResponse) => {
+        if (estado != undefined) {
           this.escuchador.unsubscribe();
           resolve(estado);
         }
@@ -51,17 +51,17 @@ export class FachadaProvider {
     })
   }
 
-  obtenerOrdenes():Promise<string[][]>{
-    return new Promise((resolve)=>{
-      this.ordenesDao.getOrdenes().then((ordenes)=>{
+  obtenerOrdenes(): Promise<string[][]> {
+    return new Promise((resolve) => {
+      this.ordenesDao.getOrdenes().then((ordenes) => {
         resolve(ordenes);
       })
     })
   }
 
-  guardarOrden(clave:string,valor:string):Promise<void>{
-    return new Promise((resolve)=>{
-      this.ordenesDao.guardarOrden(clave,valor).then(()=>{
+  guardarOrden(clave: string, valor: string): Promise<void> {
+    return new Promise((resolve) => {
+      this.ordenesDao.guardarOrden(clave, valor).then(() => {
         resolve();
       })
     })
@@ -72,13 +72,13 @@ export class FachadaProvider {
   }
 
   guardarEnDBNuevoNombre(nuevoNombre: string): any {
-    this.dao.actulizarUsuario(nuevoNombre,this.nombreUsuario);
+    this.dao.actulizarUsuario(nuevoNombre, this.nombreUsuario);
     this.nombreUsuario = nuevoNombre;
   }
 
   comprobarNombreUsuarioEnDB(): Promise<any> {
-    return new Promise((resolve)=>{
-      this.dao.getUsuario().then((nombre)=>{
+    return new Promise((resolve) => {
+      this.dao.getUsuario().then((nombre) => {
         this.nombreUsuario = nombre;
         resolve();
       })
@@ -200,11 +200,15 @@ export class FachadaProvider {
     return new Promise((resolve, reject) => {
       this.comprobarPermiso(this.permisos.PERMISSION.READ_CONTACTS).then(() => {
         this.comprobarPermiso(this.permisos.PERMISSION.WRITE_CONTACTS).then(() => {
-          this.contacto.crearContacto(nombre, apellido, mobile).then(() => {
-            resolve();
-          }).catch((error) => {
-            console.log(error);
-            reject();
+          this.comprobarPermiso(this.permisos.PERMISSION.READ_EXTERNAL_STORAGE).then(() => {
+            this.comprobarPermiso(this.permisos.PERMISSION.WRITE_EXTERNAL_STORAGE).then(() => {
+              this.contacto.crearContacto(nombre, apellido, mobile).then(() => {
+                resolve();
+              }).catch((error) => {
+                console.log(error);
+                reject();
+              })
+            })
           })
         })
       })
